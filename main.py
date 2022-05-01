@@ -4,11 +4,9 @@ import atexit
 def NoClose():
     input()
 
-import json
 import time
 import random
 import sys
-from pprint import pprint
 from pypresence import Presence
 import requests
 from mojang import MojangAPI
@@ -88,6 +86,10 @@ else:
 
 
 while True:
+    if time_record == 120:
+        print('You are not on the Hypixel Server')
+        print('Press ENTER to exit...')
+        sys.exit()
     if time_record != 120 or online != True:
         status = getInfo(url_1)
         online = (status['session']['online'])
