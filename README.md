@@ -42,7 +42,7 @@ This is a console based program for Minecraft Players who are playing on the Min
 <!-- GETTING STARTED -->
 ## Getting Started
 
-At first you have to download and unzip the  ```HyDRP-0.1.zip```.
+At first you have to download and unzip the  ```HyDRP-0.11.zip```.
 
 1. When you run the HyDRP.exe for the Firsttime you will be asked to put in your Minecraft Username and your API key fom Hypixel.
 <br>(You can get your API key by typing ```/api new``` into the [Hypixel](https://hypixel.net/) Chat)
