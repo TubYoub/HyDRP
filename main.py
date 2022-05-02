@@ -1,9 +1,3 @@
-import atexit
-
-@atexit.register
-def NoClose():
-    input()
-
 import time
 import random
 import sys
@@ -13,18 +7,19 @@ from mojang import MojangAPI
 from configparser import ConfigParser, RawConfigParser
 from art import *
 import os
+import atexit
 
+@atexit.register
+def NoClose():
+    input()
 
+version = '0.2'
 
 def getInfo(call):
     r = requests.get(call)
     return r.json()
 
-
-print('-----------Version 0.1-----------')
-tprint("Hy-DRP")
-print('---------Made by TubYoub---------')
-print('-------Please Report Bugs--------')
+clear = lambda: os.system('cls')
 
 thisfolder = os.path.dirname(os.path.abspath(__file__))
 initfile = os.path.join(thisfolder, 'config.ini')
@@ -33,10 +28,21 @@ initfile = os.path.join(thisfolder, 'config.ini')
 config = RawConfigParser()
 res = config.read(initfile)
 
-'''
-config = ConfigParser()
-config.read('config.ini')
-'''
+print('-----------Version '+ version +'-----------')
+tprint("Hy-DRP")
+print('---------Made by TubYoub---------')
+print('-------Please Report Bugs--------')
+
+if config.get('main','check_for_updates') == 'True':
+    update = getInfo(f"https://api.github.com/repos/TubYoub/HyDRP/releases/latest")
+    new_release = update['name']
+
+    if new_release != "Version "+ version:
+        print('There is a Update from HyDRP available')
+    else:
+        print('There is no new Update')
+
+
 FirstTime = config.get('main', 'firsttime')
 
 if FirstTime == 'False':
@@ -83,9 +89,22 @@ else:
     print('Please Update your API key or ur Username in the config.ini')
     input('Press ENTER to exit...')
     sys.exit()
+time.sleep(5)
+clear()
 
+print('-----------Version '+ version +'-----------')
+tprint("Hy-DRP")
+print('---------Made by TubYoub---------')
+print('-------Please Report Bugs--------')
 
 while True:
+    clear()
+
+    print('-----------Version ' + version + '-----------')
+    tprint("Hy-DRP")
+    print('---------Made by TubYoub---------')
+    print('-------Please Report Bugs--------')
+
     if time_record == 120:
         print('You are not on the Hypixel Server')
         print('Press ENTER to exit...')
@@ -219,10 +238,18 @@ while True:
             RPC = Presence(client_id)
             RPC.connect()
 
-        if config.get('main','print_to_console') == 'False':
-            RPC.update(details=currentGame, state=random.choice(status), large_image='large', large_text='Gamemode', small_image='small', small_text='mc.hypixel.net', buttons=[{"label": "/f add " + name , "url": "https://plancke.io/hypixel/player/stats/" + uuid}])
-        elif config.get('main','print_to_console') == 'True':
-            print(RPC.update(details=currentGame, state=random.choice(status), large_image='large', large_text='Gamemode', small_image='small', small_text='mc.hypixel.net', buttons=[{"label": "/f add " + name , "url": "https://plancke.io/hypixel/player/stats/" + uuid}]))
+        if config.get('main','button') == 'False' and config.get('main','print_to_console') == 'False':
+            RPC.update(details=currentGame, state=random.choice(status), large_image='large', large_text='Gamemode',small_image='small', small_text='mc.hypixe'
+                                                                                                                                                    'l.net')
+        elif config.get('main', 'button') == 'False' and config.get('main', 'print_to_console') == 'True':
+            print(RPC.update(details=currentGame, state=random.choice(status), large_image='large', large_text='Gamemode',small_image='small', small_text='mc.hypixel.net'))
+
+        elif config.get('main', 'button') == 'True' and config.get('main', 'print_to_console') == 'False':
+            RPC.update(details=currentGame, state=random.choice(status), large_image='large', large_text='Gamemode',small_image='small', small_text='mc.hypixel.net',buttons=[{"label": "/f add " + name, "url": "https://plancke.io/hypixel/player/stats/" + uuid}])
+
+        elif config.get('main', 'button') == 'True' and config.get('main', 'print_to_console') == 'True':
+            print(RPC.update(details=currentGame, state=random.choice(status), large_image='large', large_text='Gamemode',small_image='small', small_text='mc.hypixel.net',buttons=[{"label": "/f add " + name, "url": "https://plancke.io/hypixel/player/stats/" + uuid}]))
+
         else:
             RPC.update(details=currentGame, state=random.choice(status), large_image='large', large_text='Gamemode',small_image='small', small_text='mc.hypixel.net',buttons=[{"label": "/f add " + name, "url": "https://plancke.io/hypixel/player/stats/" + uuid}])
         time.sleep(15)
