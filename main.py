@@ -13,7 +13,7 @@ import atexit
 def NoClose():
     input()
 
-version = '0.2'
+version = '0.2.1'
 
 def getInfo(call):
     r = requests.get(call)
