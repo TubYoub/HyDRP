@@ -11,3 +11,6 @@ Versions/Version 0.11/Source Code.zip
 .idea/vcs.xml
 output/New Text Document.txt
 *.zip
+*.exe
+Versions/Version 0.11/HyDRP-0.11/config.ini
+Versions/Version 0.2/HyDRP-0.2/config.ini

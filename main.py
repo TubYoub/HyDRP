@@ -4,7 +4,7 @@ import sys
 from pypresence import Presence
 import requests
 from mojang import MojangAPI
-from configparser import ConfigParser, RawConfigParser
+from configparser import ConfigParser
 from art import *
 import os
 import atexit
@@ -21,12 +21,8 @@ def getInfo(call):
 
 clear = lambda: os.system('cls')
 
-thisfolder = os.path.dirname(os.path.abspath(__file__))
-initfile = os.path.join(thisfolder, 'config.ini')
-
-
-config = RawConfigParser()
-res = config.read(initfile)
+config = ConfigParser()
+res = config.read('config.ini')
 
 print('-----------Version '+ version +'-----------')
 tprint("Hy-DRP")
