@@ -1,3 +1,7 @@
+# TODO: Support more Minigames
+# TODO: Disable stats in config.ini
+# TODO: Better display of the stats in the console
+
 import time
 import random
 import sys
@@ -119,6 +123,14 @@ while True:
 
         data = getInfo(url_3)
         gameType = data2['games'][0]['gameType']
+        try:
+            data2['games'][0]['ended']
+            starttime = 32514888426
+            lobby = ' lobby'
+        except:
+            starttime = data2['games'][0]['date']
+            drptime = True
+            lobby = ''
 
         if gameType == 'BEDWARS':
             old_APPLICATION_ID = APPLICATION_ID
@@ -131,7 +143,7 @@ while True:
             stat6 = 'Final Kills: ' + str(data['player']['stats']['Bedwars']['final_kills_bedwars'])
             stat7 = 'Wins: ' + str(data['player']['stats']['Bedwars']['wins_bedwars'])
             stat8 = 'Coins:' + str(data['player']['stats']['Bedwars']['coins'])
-            currentGame = 'Bedwars'
+            currentGame = 'Bedwars' + lobby
 
         elif gameType == 'SKYWARS':
             old_APPLICATION_ID = APPLICATION_ID
@@ -144,7 +156,7 @@ while True:
             stat6 = 'Played Games: ' + str(data['player']['stats']['SkyWars']['games_played_skywars'])
             stat7 = 'Kills: ' + str(data['player']['stats']['SkyWars']['kills'])
             stat8 = 'Coins: ' + str(data['player']['stats']['SkyWars']['coins'])
-            currentGame = 'Skywars'
+            currentGame = 'Skywars' + lobby
 
         elif gameType == 'MURDERMYSTERY':
             old_APPLICATION_ID = APPLICATION_ID
@@ -157,7 +169,7 @@ while True:
             stat6 = 'Played Games: ' + str(data['player']['stats']['MurderMystery']['games'])
             stat7 = 'Kills: ' + str(data['player']['stats']['MurderMystery']['kills'])
             stat8 = 'Coins: ' + str(data['player']['stats']['MurderMystery']['coins'])
-            currentGame = 'Murder Mystery'
+            currentGame = 'Murder Mystery' + lobby
 
         elif gameType == 'GINGERBREAD':
             old_APPLICATION_ID = APPLICATION_ID
@@ -170,7 +182,7 @@ while True:
             stat6 = "normal"
             stat7 = "normal"
             stat8 = "normal"
-            currentGame = 'Turbo Kart Racer'
+            currentGame = 'Turbo Kart Racer' + lobby
 
         elif gameType == 'DUELS':
             old_APPLICATION_ID = APPLICATION_ID
@@ -183,7 +195,7 @@ while True:
             stat6 = 'Blocks placed: ' + str(data['player']['stats']['Duels']['blocks_placed'])
             stat7 = 'Played Games: ' + str(data['player']['stats']['Duels']['games_played_duels'])
             stat8 = 'Bow shots: ' + str(data['player']['stats']['Duels']['bow_shots'])
-            currentGame = 'Duels'
+            currentGame = 'Duels' + lobby
 
         elif gameType == 'PIT':
             old_APPLICATION_ID = APPLICATION_ID
@@ -221,7 +233,7 @@ while True:
             stat7,
             stat8
         ]
-
+        print(status)
         if not rpc_connected:
             client_id = APPLICATION_ID
             RPC = Presence(client_id)
@@ -234,18 +246,20 @@ while True:
             RPC = Presence(client_id)
             RPC.connect()
 
+        state = random.choice(status)
+
         if config.get('main','button') == 'False' and config.get('main','print_to_console') == 'False':
-            RPC.update(details=currentGame, state=random.choice(status), large_image='large', large_text='Gamemode',small_image='small', small_text='mc.hypixe'
-                                                                                                                                                    'l.net')
+            RPC.update(details=currentGame, state=state, large_image='large', large_text='Gamemode',small_image='small', small_text='mc.hypixel.net', start=starttime)
+
         elif config.get('main', 'button') == 'False' and config.get('main', 'print_to_console') == 'True':
-            print(RPC.update(details=currentGame, state=random.choice(status), large_image='large', large_text='Gamemode',small_image='small', small_text='mc.hypixel.net'))
+            print(RPC.update(details=currentGame, state=state, large_image='large', large_text='Gamemode',small_image='small', small_text='mc.hypixel.net', start=starttime))
 
         elif config.get('main', 'button') == 'True' and config.get('main', 'print_to_console') == 'False':
-            RPC.update(details=currentGame, state=random.choice(status), large_image='large', large_text='Gamemode',small_image='small', small_text='mc.hypixel.net',buttons=[{"label": "/f add " + name, "url": "https://plancke.io/hypixel/player/stats/" + uuid}])
+            RPC.update(details=currentGame, state=state, large_image='large', large_text='Gamemode',small_image='small', small_text='mc.hypixel.net', start=starttime,buttons=[{"label": "/f add " + name, "url": "https://plancke.io/hypixel/player/stats/" + uuid}])
 
         elif config.get('main', 'button') == 'True' and config.get('main', 'print_to_console') == 'True':
-            print(RPC.update(details=currentGame, state=random.choice(status), large_image='large', large_text='Gamemode',small_image='small', small_text='mc.hypixel.net',buttons=[{"label": "/f add " + name, "url": "https://plancke.io/hypixel/player/stats/" + uuid}]))
+            print(RPC.update(details=currentGame, state=state, large_image='large', large_text='Gamemode',small_image='small', small_text='mc.hypixel.net', start=starttime,buttons=[{"label": "/f add " + name, "url": "https://plancke.io/hypixel/player/stats/" + uuid}]))
 
         else:
-            RPC.update(details=currentGame, state=random.choice(status), large_image='large', large_text='Gamemode',small_image='small', small_text='mc.hypixel.net',buttons=[{"label": "/f add " + name, "url": "https://plancke.io/hypixel/player/stats/" + uuid}])
+            RPC.update(details=currentGame, state=state, large_image='large', large_text='Gamemode',small_image='small', small_text='mc.hypixel.net', start=starttime,buttons=[{"label": "/f add " + name, "url": "https://plancke.io/hypixel/player/stats/" + uuid}])
         time.sleep(15)
