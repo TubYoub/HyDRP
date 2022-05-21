@@ -43,11 +43,13 @@ This is a console based program for Minecraft Players who are playing on the Min
 ## Getting Started
 
 At first you have to download and unzip the  ```HyDRP-0.2.1.zip```.
-
+<br> And you have to aktivate the API in your Hypixel settings.
 1. When you run the HyDRP.exe for the Firsttime you will be asked to put in your Minecraft Username and your API key fom Hypixel.
 <br>(You can get your API key by typing ```/api new``` into the [Hypixel](https://hypixel.net/) Chat)
-2. When you do want that the Updates of your DRP beeing printed to your console 
-<br> than you have to edit the ```config.ini``` and set ```print_the_console``` from ```False``` to ```True```
+2. When your API key and MC Username is valid the sript will print that to the console.
+3. The sript will begin to check if u are online and when the account is online it search for ur last game on Hypixel.
+4. When there is a recent Game which had not ended the Sript will display ur Stats and the Time how long u are in the Game.
+5. If the recent Game has already ended it will Diplay that u are in the Gamelobby and the scipt will display ur stats.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -57,9 +59,9 @@ At first you have to download and unzip the  ```HyDRP-0.2.1.zip```.
 ## Usage
 
 The usage of this Program is to display what minigame you are playing on the [Hypixel](https://hypixel.net/) Server Network.
-<br> it will display stats from Minigame. For Example in Bedwars:
+<br> it will display stats from from the Minigame u are playing. For Example in Bedwars:
 <br> <img src="images/Bedwars-DRP-example.png">
-<br> There is also a Button which say's ```/f add <name>``` when you press it you will get to the Players Stats. Note: This Button does not function in the Discord Client of the Person who uses HyDRP.
+<br> There is also a Button which say's ```/f add <name>``` when you press it you will get to the Players Stats you can disable it in the ```config.ini```. Note: This Button does not function in the Discord Client of the Person who uses HyDRP.
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
@@ -79,7 +81,7 @@ Here is list of Hypixel Minigames which are currently supported
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Disable certain Stats
+- [&#10003;] Disable certain Stats
 - [ ] Support more Minigames
 - [ ] a GUI
 
