@@ -1,6 +1,4 @@
 # TODO: Support more Minigames
-# TODO: Disable stats in config.ini
-# TODO: Better display of the stats in the console
 
 import time
 import random
@@ -9,7 +7,6 @@ from pypresence import Presence
 import requests
 from mojang import MojangAPI
 from configparser import ConfigParser
-from art import *
 import os
 import atexit
 
@@ -17,21 +14,30 @@ import atexit
 def NoClose():
     input()
 
-version = '0.2.1'
-
 def getInfo(call):
     r = requests.get(call)
     return r.json()
+
+version = '0.3'
 
 clear = lambda: os.system('cls')
 
 config = ConfigParser()
 res = config.read('config.ini')
 
-print('-----------Version '+ version +'-----------')
-tprint("Hy-DRP")
-print('---------Made by TubYoub---------')
-print('-------Please Report Bugs--------')
+clear()
+logo = f'''
+-----------Version  {version} -----------
+ _   _                ____   ____   ____  
+| | | | _   _        |  _ \ |  _ \ |  _ \ 
+| |_| || | | | _____ | | | || |_) || |_) |
+|  _  || |_| ||_____|| |_| ||  _ < |  __/ 
+|_| |_| \__, |       |____/ |_| \_\|_|    
+        |___/                             
+---------Made by TubYoub---------
+-------Please Report Bugs--------
+'''
+print(logo)
 
 if config.get('main','check_for_updates') == 'True':
     update = getInfo(f"https://api.github.com/repos/TubYoub/HyDRP/releases/latest")
@@ -90,20 +96,13 @@ else:
     input('Press ENTER to exit...')
     sys.exit()
 time.sleep(5)
-clear()
 
-print('-----------Version '+ version +'-----------')
-tprint("Hy-DRP")
-print('---------Made by TubYoub---------')
-print('-------Please Report Bugs--------')
+clear()
+print(logo)
 
 while True:
     clear()
-
-    print('-----------Version ' + version + '-----------')
-    tprint("Hy-DRP")
-    print('---------Made by TubYoub---------')
-    print('-------Please Report Bugs--------')
+    print(logo)
 
     if time_record == 120:
         print('You are not on the Hypixel Server')
@@ -135,40 +134,138 @@ while True:
         if gameType == 'BEDWARS':
             old_APPLICATION_ID = APPLICATION_ID
             APPLICATION_ID = '876505801047556097'
-            stat1 = 'Played Games: ' + str(data['player']['stats']['Bedwars']['games_played_bedwars_1'])
-            stat2 = 'Coins: ' + str(data['player']['stats']['Bedwars']['coins'])
-            stat3 = 'Recources collected: ' + str(data['player']['stats']['Bedwars']['resources_collected_bedwars'])
-            stat4 = 'Purchased Items: ' + str(data['player']['stats']['Bedwars']['_items_purchased_bedwars'])
-            stat5 = 'Kills: ' + str(data['player']['stats']['Bedwars']['kills_bedwars'])
-            stat6 = 'Final Kills: ' + str(data['player']['stats']['Bedwars']['final_kills_bedwars'])
-            stat7 = 'Wins: ' + str(data['player']['stats']['Bedwars']['wins_bedwars'])
-            stat8 = 'Coins:' + str(data['player']['stats']['Bedwars']['coins'])
+
+            if config.get('BedWars', 'PlayedGames') == 'True':
+                stat1 = 'Played Games: ' + str(data['player']['stats']['Bedwars']['games_played_bedwars_1'])
+            else:
+                stat1 = 'mc.hypixel.net'
+
+            if config.get('BedWars', 'Coins') == 'True':
+                stat2 = 'Coins: ' + str(data['player']['stats']['Bedwars']['coins'])
+            else:
+                stat2 = 'mc.hypixel.net'
+
+            if config.get('BedWars', 'RecourcesCollected') == 'True':
+                stat3 = 'Recources collected: ' + str(data['player']['stats']['Bedwars']['resources_collected_bedwars'])#
+            else:
+                stat3: 'mc.hypixel.net'
+
+            if config.get('BedWars', 'PurchasedItems') == 'True':
+                stat4 = 'Purchased Items: ' + str(data['player']['stats']['Bedwars']['_items_purchased_bedwars'])
+            else:
+                stat4 = 'mc.hypixel.net'
+
+            if config.get('BedWars', 'Kills') == 'True':
+                stat5 = 'Kills: ' + str(data['player']['stats']['Bedwars']['kills_bedwars'])
+            else:
+                stat5 = 'mc.hypixel.net'
+
+            if config.get('BedWars', 'FinalKills') == 'True':
+                stat6 = 'Final Kills: ' + str(data['player']['stats']['Bedwars']['final_kills_bedwars'])
+            else:
+                stat6 = 'mc.hypixel.net'
+
+            if config.get('BedWars', 'Wins') == 'True':
+                stat7 = 'Wins: ' + str(data['player']['stats']['Bedwars']['wins_bedwars'])
+            else:
+                stat7 = 'mc.hypixel.net'
+
+            if config.get('BedWars', 'Coins') == 'True':
+                stat8 = 'Coins:' + str(data['player']['stats']['Bedwars']['coins'])
+            else:
+                stat8 = 'mc.hypixel.net'
+
             currentGame = 'Bedwars' + lobby
 
         elif gameType == 'SKYWARS':
             old_APPLICATION_ID = APPLICATION_ID
             APPLICATION_ID = '878328645813407837'
-            stat1 = 'Played Games: ' + str(data['player']['stats']['SkyWars']['games_played_skywars'])
-            stat2 = 'Kills: ' + str(data['player']['stats']['SkyWars']['kills'])
-            stat3 = 'Coins: ' + str(data['player']['stats']['SkyWars']['coins'])
-            stat4 = 'Tokens: ' + str(data['player']['stats']['SkyWars']['cosmetic_tokens'])
-            stat5 = 'Wins: ' + str(data['player']['stats']['SkyWars']['wins'])
-            stat6 = 'Played Games: ' + str(data['player']['stats']['SkyWars']['games_played_skywars'])
-            stat7 = 'Kills: ' + str(data['player']['stats']['SkyWars']['kills'])
-            stat8 = 'Coins: ' + str(data['player']['stats']['SkyWars']['coins'])
+
+            if config.get('SkyWars', 'PlayedGames') == 'True':
+                stat1 = 'Played Games: ' + str(data['player']['stats']['SkyWars']['games_played_skywars'])
+            else:
+                stat1 = 'mc.hypixel.net'
+
+            if config.get('SkyWars', 'Kills') == 'True':
+                stat2 = 'Kills: ' + str(data['player']['stats']['SkyWars']['kills'])
+            else:
+                stat2 = 'mc.hypixel.net'
+
+            if config.get('SkyWars', 'Coins') == 'True':
+                stat3 = 'Coins: ' + str(data['player']['stats']['SkyWars']['coins'])
+            else:
+                stat3 = 'mc.hypixel.net'
+
+            if config.get('SkyWars', 'Tokens') == 'True':
+                stat4 = 'Tokens: ' + str(data['player']['stats']['SkyWars']['cosmetic_tokens'])
+            else:
+                stat4 = 'mc.hypixel.net'
+
+            if config.get('SkyWars', 'Wins') == 'True':
+                stat5 = 'Wins: ' + str(data['player']['stats']['SkyWars']['wins'])
+            else:
+                stat5 = 'mc.hypixel.net'
+
+            if config.get('SkyWars', 'PlayedGames') == 'True':
+                stat6 = 'Played Games: ' + str(data['player']['stats']['SkyWars']['games_played_skywars'])
+            else:
+                stat6 = 'mc.hypixel.net'
+
+            if config.get('SkyWars', 'Kills') == 'True':
+                stat7 = 'Kills: ' + str(data['player']['stats']['SkyWars']['kills'])
+            else:
+                stat7 = 'mc.hypixel.net'
+
+            if config.get('SkyWars', 'Coins') == 'True':
+                stat8 = 'Coins: ' + str(data['player']['stats']['SkyWars']['coins'])
+            else:
+                stat8 = 'mc.hypixel.net'
+
             currentGame = 'Skywars' + lobby
 
         elif gameType == 'MURDERMYSTERY':
             old_APPLICATION_ID = APPLICATION_ID
             APPLICATION_ID = '878328439520759828'
-            stat1 = 'Played Games: ' + str(data['player']['stats']['MurderMystery']['games'])
-            stat2 = 'Kills: ' + str(data['player']['stats']['MurderMystery']['kills'])
-            stat3 = 'Coins: ' + str(data['player']['stats']['MurderMystery']['coins'])
-            stat4 = 'Wins: ' + str(data['player']['stats']['MurderMystery']['wins'])
-            stat5 = 'Murder chance: ' + str(data['player']['stats']['MurderMystery']['murderer_chance'])
-            stat6 = 'Played Games: ' + str(data['player']['stats']['MurderMystery']['games'])
-            stat7 = 'Kills: ' + str(data['player']['stats']['MurderMystery']['kills'])
-            stat8 = 'Coins: ' + str(data['player']['stats']['MurderMystery']['coins'])
+
+            if config.get('MurderMystery', 'PlayedGames') == 'True':
+                stat1 = 'Played Games: ' + str(data['player']['stats']['MurderMystery']['games'])
+            else:
+                stat1 = 'mc.hypixel.net'
+
+            if config.get('MurderMystery', 'Kills') == 'True':
+                stat2 = 'Kills: ' + str(data['player']['stats']['MurderMystery']['kills'])
+            else:
+                stat2 = 'mc.hypixel.net'
+
+            if config.get('MurderMystery', 'Coins') == 'True':
+                stat3 = 'Coins: ' + str(data['player']['stats']['MurderMystery']['coins'])
+            else:
+                stat3 = 'mc.hypixel.net'
+
+            if config.get('MurderMystery', 'Wins') == 'True':
+                stat4 = 'Wins: ' + str(data['player']['stats']['MurderMystery']['wins'])
+            else:
+                stat4 = 'mc.hypixel.net'
+
+            if config.get('MurderMystery', 'MurderChance') == 'True':
+                stat5 = 'Murder chance: ' + str(data['player']['stats']['MurderMystery']['murderer_chance'])
+            else:
+                stat5 = 'mc.hypixel.net'
+
+            if config.get('MurderMystery', 'PlayedGames') == 'True':
+                stat6 = 'Played Games: ' + str(data['player']['stats']['MurderMystery']['games'])
+            else:
+                stat6 = 'mc.hypixel.net'
+
+            if config.get('MurderMystery', 'Kills') == 'True':
+                stat7 = 'Kills: ' + str(data['player']['stats']['MurderMystery']['kills'])
+            else:
+                stat7 = 'mc.hypixel.net'
+
+            if config.get('MurderMystery', 'Coins') == 'True':
+                stat8 = 'Coins: ' + str(data['player']['stats']['MurderMystery']['coins'])
+            else:
+                'mc.hypixel.net'
             currentGame = 'Murder Mystery' + lobby
 
         elif gameType == 'GINGERBREAD':
@@ -187,27 +284,92 @@ while True:
         elif gameType == 'DUELS':
             old_APPLICATION_ID = APPLICATION_ID
             APPLICATION_ID = '884049580642160652'
-            stat1 = 'Played Games: ' + str(data['player']['stats']['Duels']['games_played_duels'])
-            stat2 = 'Bow shots: ' + str(data['player']['stats']['Duels']['bow_shots'])
-            stat3 = 'Damage dealt: ' + str(data['player']['stats']['Duels']['damage_dealt'])
-            stat4 = 'Coins: ' + str(data['player']['stats']['Duels']['coins'])
-            stat5 = 'Wins: ' + str(data['player']['stats']['Duels']['wins'])
-            stat6 = 'Blocks placed: ' + str(data['player']['stats']['Duels']['blocks_placed'])
-            stat7 = 'Played Games: ' + str(data['player']['stats']['Duels']['games_played_duels'])
-            stat8 = 'Bow shots: ' + str(data['player']['stats']['Duels']['bow_shots'])
+
+            if config.get('Duels', 'PlayedGames') == 'True':
+                stat1 = 'Played Games: ' + str(data['player']['stats']['Duels']['games_played_duels'])
+            else:
+                stat1 = 'mc.hypixel.net'
+
+            if config.get('Duels', 'BowShots') == 'True':
+                stat2 = 'Bow shots: ' + str(data['player']['stats']['Duels']['bow_shots'])
+            else:
+                stat2 = 'mc.hypixel.net'
+
+            if config.get('Duels', 'DamagDealt') == 'True':
+                stat3 = 'Damage dealt: ' + str(data['player']['stats']['Duels']['damage_dealt'])
+            else:
+                stat3 = 'mc.hypixel.net'
+
+            if config.get('Duels', 'Coins') == 'True':
+                stat4 = 'Coins: ' + str(data['player']['stats']['Duels']['coins'])
+            else:
+                stat4 = 'mc.hypixel.net'
+
+            if config.get('Duels', 'Wins') == 'True':
+                stat5 = 'Wins: ' + str(data['player']['stats']['Duels']['wins'])
+            else:
+                stat5 = 'mc.hypixel.net'
+
+            if config.get('Duels', 'BlocksPlaced') == 'True':
+                stat6 = 'Blocks placed: ' + str(data['player']['stats']['Duels']['blocks_placed'])
+            else:
+                stat6 = 'mc.hypixel.net'
+
+            if config.get('Duels', 'PlayedGames') == 'True':
+                stat7 = 'Played Games: ' + str(data['player']['stats']['Duels']['games_played_duels'])
+            else:
+                stat7 = 'mc.hypixel.net'
+
+            if config.get('Duels', 'BowShots') == 'True':
+                stat8 = 'Bow shots: ' + str(data['player']['stats']['Duels']['bow_shots'])
+            else:
+                stat8 = 'mc.hypixel.net'
             currentGame = 'Duels' + lobby
 
         elif gameType == 'PIT':
             old_APPLICATION_ID = APPLICATION_ID
             APPLICATION_ID = '884052292591034378'
-            stat1 = 'Bow shots: ' + str(data['player']['stats']['Pit']['pit_stats_ptl']['arrows_fired'])
-            stat2 = 'Kills: ' + str(data['player']['stats']['Pit']['pit_stats_ptl']['kills'])
-            stat3 = 'Gold: ' + str(data['player']['stats']['Pit']['pit_stats_ptl']['ingots_cash'])
-            stat4 = 'Playtime: ' + str(data['player']['stats']['Pit']['pit_stats_ptl']['playtime_minutes']) + ' minutes'
-            stat5 = 'Bow shots: ' + str(data['player']['stats']['Pit']['pit_stats_ptl']['arrows_fired'])
-            stat6 = 'Kills: ' + str(data['player']['stats']['Pit']['pit_stats_ptl']['kills'])
-            stat7 = 'Gold: ' + str(data['player']['stats']['Pit']['pit_stats_ptl']['ingots_cash'])
-            stat8 = 'Playtime: ' + str(data['player']['stats']['Pit']['pit_stats_ptl']['playtime_minutes']) + ' minutes'
+
+            if config.get('Pit', 'BowShots') == 'True':
+                stat1 = 'Bow shots: ' + str(data['player']['stats']['Pit']['pit_stats_ptl']['arrows_fired'])
+            else:
+                stat1 = 'mc.hypixel.net'
+
+            if config.get('Pit', 'Kills') == 'True':
+                stat2 = 'Kills: ' + str(data['player']['stats']['Pit']['pit_stats_ptl']['kills'])
+            else:
+                stat2 = 'mc.hypixel.net'
+
+            if config.get('Pit', 'Gold') == 'True':
+                stat3 = 'Gold: ' + str(data['player']['stats']['Pit']['pit_stats_ptl']['ingots_cash'])
+            else:
+                stat3 = 'mc.hypixel.net'
+
+            if config.get('Pit', 'Playtime') == 'True':
+                stat4 = 'Playtime: ' + str(data['player']['stats']['Pit']['pit_stats_ptl']['playtime_minutes']) + ' minutes'
+            else:
+                stat4 = 'mc.hypixel.net'
+
+            if config.get('Pit', 'BowShots') == 'True':
+                stat5 = 'Bow shots: ' + str(data['player']['stats']['Pit']['pit_stats_ptl']['arrows_fired'])
+            else:
+                stat5 = 'mc.hypixel.net'
+
+            if config.get('Pit', 'Kills') == 'True':
+                stat6 = 'Kills: ' + str(data['player']['stats']['Pit']['pit_stats_ptl']['kills'])
+            else:
+                stat6 = 'mc.hypixel.net'
+
+            if config.get('Pit', 'Gold') == 'True':
+                stat7 = 'Gold: ' + str(data['player']['stats']['Pit']['pit_stats_ptl']['ingots_cash'])
+            else:
+                stat7 = 'mc.hypixel.net'
+
+            if config.get('Pit', 'Playtime') == 'True':
+                stat8 = 'Playtime: ' + str(data['player']['stats']['Pit']['pit_stats_ptl']['playtime_minutes']) + ' minutes'
+            else:
+                stat8 = 'mc.hypixel.net'
+
             currentGame = 'The Pit'
 
         else:
@@ -233,7 +395,7 @@ while True:
             stat7,
             stat8
         ]
-        print(status)
+
         if not rpc_connected:
             client_id = APPLICATION_ID
             RPC = Presence(client_id)
@@ -248,17 +410,17 @@ while True:
 
         state = random.choice(status)
 
-        if config.get('main','button') == 'False' and config.get('main','print_to_console') == 'False':
-            RPC.update(details=currentGame, state=state, large_image='large', large_text='Gamemode',small_image='small', small_text='mc.hypixel.net', start=starttime)
+        print(f'|----------------------|')
+        print(f'| Skywars              |')
+        print(f'| Skywars {lobby}')
+        print(f'| {state}')
+        print(f'|----------------------|')
 
-        elif config.get('main', 'button') == 'False' and config.get('main', 'print_to_console') == 'True':
-            print(RPC.update(details=currentGame, state=state, large_image='large', large_text='Gamemode',small_image='small', small_text='mc.hypixel.net', start=starttime))
-
-        elif config.get('main', 'button') == 'True' and config.get('main', 'print_to_console') == 'False':
+        if config.get('main', 'button') == 'True':
             RPC.update(details=currentGame, state=state, large_image='large', large_text='Gamemode',small_image='small', small_text='mc.hypixel.net', start=starttime,buttons=[{"label": "/f add " + name, "url": "https://plancke.io/hypixel/player/stats/" + uuid}])
 
-        elif config.get('main', 'button') == 'True' and config.get('main', 'print_to_console') == 'True':
-            print(RPC.update(details=currentGame, state=state, large_image='large', large_text='Gamemode',small_image='small', small_text='mc.hypixel.net', start=starttime,buttons=[{"label": "/f add " + name, "url": "https://plancke.io/hypixel/player/stats/" + uuid}]))
+        elif config.get('main', 'button') == 'False':
+            RPC.update(details=currentGame, state=state, large_image='large', large_text='Gamemode',small_image='small', small_text='mc.hypixel.net', start=starttime)
 
         else:
             RPC.update(details=currentGame, state=state, large_image='large', large_text='Gamemode',small_image='small', small_text='mc.hypixel.net', start=starttime,buttons=[{"label": "/f add " + name, "url": "https://plancke.io/hypixel/player/stats/" + uuid}])
